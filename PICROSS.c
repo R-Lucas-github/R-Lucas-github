@@ -120,30 +120,83 @@ int click_souris(int nbLin,int nbCol)
   	return 0;
 }
 
+/*Demande un chiffre pour la ligne*/
+int get_chiffre_L(int seuil)
+{
+	int n;
+	do
+	{
+		printw("entrer un entier sup ou = %d pour les lignes : ",seuil);
+		
+		if(scanw("%d",&n) != 1) 
+		{
+			endwin();
+			fprintf(stderr,"Input error\n");
+			exit(EXIT_FAILURE);
+		}
+	}while(n < seuil);
+	return n;
+}
 
+/*Demande un chiffre pour la colonne*/
+int get_chiffre_C(int seuil)
+{
+	int n;
+	do
+	{
+		printw("entrer un entier sup ou = %d pour les colonnes : ",seuil);
+
+		if(scanw("%d",&n) != 1)
+		{
+			endwin();
+			fprintf(stderr,"Input error\n");
+			exit(EXIT_FAILURE);
+		}
+	}while(n < seuil);
+	return n;
+}
 
 /*Pour récupérer les données saisies par l'utilisateur sans bloquer le jeu*/
-char key_pressed() {
-struct termios oldterm, newterm;
-int oldfd;
-char c, result = 0;
-tcgetattr (STDIN_FILENO, &oldterm);
-newterm = oldterm;
-newterm.c_lflag &= ~(ICANON | ECHO);
-tcsetattr (STDIN_FILENO, TCSANOW, &newterm);
-oldfd = fcntl(STDIN_FILENO, F_GETFL, 0);
-fcntl (STDIN_FILENO, F_SETFL, oldfd | O_NONBLOCK);
-c = getchar();
-tcsetattr (STDIN_FILENO, TCSANOW, &oldterm);
-fcntl (STDIN_FILENO, F_SETFL, oldfd);
-if (c != EOF) {
-ungetc(c, stdin);
-result = getchar();
-}
-return result;
+char key_pressed() 
+{
+	struct termios oldterm, newterm;
+	int oldfd;
+	char c, result = 0;
+	tcgetattr (STDIN_FILENO, &oldterm);
+	newterm = oldterm;
+	newterm.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr (STDIN_FILENO, TCSANOW, &newterm);
+	oldfd = fcntl(STDIN_FILENO, F_GETFL, 0);
+	fcntl (STDIN_FILENO, F_SETFL, oldfd | O_NONBLOCK);
+	c = getchar();
+	tcsetattr (STDIN_FILENO, TCSANOW, &oldterm);
+	fcntl (STDIN_FILENO, F_SETFL, oldfd);
+	if (c != EOF) 
+	{
+		ungetc(c, stdin);
+		result = getchar();
+	}
+	return result;
 }
 
+void printmenu(WINDOW * win,int y,int x)
+{
+mvwprintw(win,y,x,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ");
+mvwprintw(win,y,x,"+#####################################################################################+ ");
+mvwprintw(win,y,x,"+#          # #__# #          # #            # #           # #          # #          #+ ");
+mvwprintw(win,y,x,"+#   ####   # #  # #          # #    ####    # #           # #          # #          #+ ");
+mvwprintw(win,y,x,"+#   ####   # #  # #   ######## #    #  #    # #   #####   # #    ####### #     ######+ ");
+mvwprintw(win,y,x,"+#   ####   # #  # #   #      # #    ####    # #   #####   # #          # #          #+ ");
+mvwprintw(win,y,x,"+#   ####   # #  # #   #      # #            # #   #####   # #          # #          #+ ");
+mvwprintw(win,y,x,"+#          # #  # #   #      # #   ##   ##### #   #####   # #          # #          #+ ");
+mvwprintw(win,y,x,"+#    ####### #  # #   ######## #   # #   #    #   #####   # #######    # ######     #+ ");
+mvwprintw(win,y,x,"+#    #     # #  # #          # #   #  #   #   #           # #          # #          #+ ");
+mvwprintw(win,y,x,"+#    #     # #  # #          # #   #   #   #  #           # #          # #          #+ ");
+mvwprintw(win,y,x,"+######     ##########################################################################+ ");
+mvwprintw(win,y,x,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
+/**END ART**/
+}
 
 void LANCEMENT_JEU()
 {
