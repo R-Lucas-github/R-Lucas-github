@@ -1,0 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h> 
+#include <time.h>
+#include <ncurses.h> 
+#include <unistd.h>
+#include <math.h>
+#include <signal.h>
+#include <string.h>
+#include <termios.h>
+#include <fcntl.h>
